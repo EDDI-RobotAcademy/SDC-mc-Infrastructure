@@ -3,8 +3,8 @@
 locale-gen en_US.UTF-8
 
 rosdep init
-rosdep update
-rosdep fix-permissions
+sudo rosdep update
+sudo rosdep fix-permissions
 
 echo HOME=${HOME}
 
