@@ -16,8 +16,12 @@ RUN apt-get autoremove --purge --yes \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& rm -rf /etc/ros/rosdep/sources.list.d/20-default.list
 
+RUN echo "Acquire::Check-Valid-Until \"false\";\nAcquire::Check-Date \"false\";" | cat > /etc/apt/apt.conf.d/10no--check-valid-until
 
-RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 4B63CF8FDE49746E98FA01DDAD19BAB3CBF125EA
+
+RUN apt-get clean && apt-get update
+RUN apt-get install -y --no-install-recommends apt-utils
 RUN apt-get install -y language-pack-ko
 
 RUN apt-get install -y \
