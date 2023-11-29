@@ -2,8 +2,29 @@
 
 sudo apt update
 sudo apt install -y mysql-server
+sudo apt-get install -y expect
 
-sudo mysql_secure_installation
+read -s -p "Enter MySQL root password: " mysql_root_password
+echo
+
+expect <<EOF
+set timeout 0.1
+spawn sudo -S mysql_secure_installation
+expect "Password:"
+log_user 0
+send -- "$mysql_root_password\r"
+expect "Press y|Y for Yes, any other key for No:"
+send "n\r"
+expect "Remove anonymous users?"
+send "y\r"
+expect "Disallow root login remotely?"
+send "y\r"
+expect "Remove test database and access to it?"
+send "y\r"
+expect "Reload privilege tables now?"
+send "y\r"
+expect eof
+EOF
 
 sudo systemctl start mysql
 sudo systemctl enable mysql
