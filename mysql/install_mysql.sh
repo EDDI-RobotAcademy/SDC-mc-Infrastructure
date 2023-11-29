@@ -11,8 +11,12 @@ expect <<EOF
 set timeout 0.1
 spawn sudo -S mysql_secure_installation
 expect "Password:"
-log_user 0  ;# Disable logging to stdout
+log_user 0
 send -- "$mysql_root_password\r"
+expect "Press y|Y for Yes, any other key for No:"
+send "n\r"
+expect "Remove anonymous users?"
+send "y\r"
 expect "Disallow root login remotely?"
 send "y\r"
 expect "Remove test database and access to it?"
